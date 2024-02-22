@@ -1,6 +1,7 @@
 import tkinter as tk
 
 class SampleApp(tk.Tk):
+    
     def __init__(self):
         super().__init__()
         self.current_window = None
@@ -73,6 +74,7 @@ class SampleApp(tk.Tk):
         tk.Button(self.current_window, text="Search", command=self.search_sku_button).pack()
         self.results = tk.Listbox(self.current_window, height=10)
         self.results.pack()
+        tk.Button(self.current_window, text="Back", command=self.previous_window).pack()
         self.search_sku_button()
 
     def search_sku_button(self):
