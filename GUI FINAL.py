@@ -1,30 +1,42 @@
 import tkinter as tk
+from tkinter import PhotoImage
+
 
 class SampleApp(tk.Tk):
-    
+# A simple GUI application with multiple windows for product input, SKU search, and main window.
     def __init__(self):
         super().__init__()
+        self.configure(borderwidth=2, relief="solid")
+        self.configure(bg="red")
+        self.banner = PhotoImage(file="conke1.gif")
+        tk.Label(self, image=self.banner).pack()
         self.current_window = None
         self.window_list = [self.product_input, self.search_sku, self.main_window]
         self.current_window_index = 1
-        self.geometry("600x600")
+        self.geometry("400x600")
         self.main_window()
         self.product_data = []
 
+# Destroy the current window and create the main window with options to go to product input and SKU search windows.
     def main_window(self):
         if self.current_window:
             self.current_window.destroy()
         self.current_window = tk.Frame(self)
         self.current_window.pack()
-        tk.Label(self.current_window, text="Main Window").pack()
-        tk.Button(self.current_window, text="Product Input", command=self.product_input).pack()
-        tk.Button(self.current_window, text="Search SKU", command=self.search_sku).pack()
+        tk.Label(self.current_window, text="Welcome to the Inventory Management system").pack()
+        tk.Button(self.current_window, text="Product Input", command=self.product_input).pack(pady=20)
+        tk.Button(self.current_window, text="Search SKU", command=self.search_sku).pack(pady=20)
 
+        self.image = PhotoImage(file="Pour.gif")  # replace with your image file
+        tk.Label(self.current_window, image=self.image).pack(side="bottom")
+
+# Destroy the current window and create the product input window with options to save, continue inputting SKU, and go back to the previous window.
     def product_input(self):
         if self.current_window:
             self.current_window.destroy()
         self.current_window = tk.Frame(self)
         self.current_window.pack()
+        tk.Label(self.current_window, text="Please Enter the Name and the desired SKU  of the Product.").pack()
         tk.Label(self.current_window, text="Item Name:").pack()
         self.item_name = tk.StringVar()
         tk.Entry(self.current_window, textvariable=self.item_name).pack()
@@ -40,6 +52,8 @@ class SampleApp(tk.Tk):
             self.product_listbox.insert(tk.END, f"{data[0]} ({data[1]})")
         tk.Button(self.current_window, text="Back", command=self.previous_window).pack()
 
+# Save the entered item name and SKU to a text file and go back to the previous window.
+
     def save_and_return(self):
         item_name = self.item_name.get()
         sku = self.sku.get()
@@ -51,6 +65,8 @@ class SampleApp(tk.Tk):
             f.write(f"{item_name},{sku}\n")
         self.item_name.set("")
         self.sku.set("")
+
+# Save the entered item name and SKU to the product data list and clear the entry fields for item name and SKU.
 
     def continue_inputting_sku(self):
         item_name = self.item_name.get()
