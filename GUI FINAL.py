@@ -10,6 +10,7 @@
 import tkinter as tk
 from tkinter import PhotoImage
 import tkinter.messagebox as messagebox
+import sys
 
 class SampleApp(tk.Tk):
 # A simple GUI application with multiple windows for product input, SKU search, and main window.
@@ -35,6 +36,7 @@ class SampleApp(tk.Tk):
         tk.Label(self.current_window, text="Welcome to the Inventory Management system").pack()
         tk.Button(self.current_window, text="Product Input", command=self.product_input).pack(pady=20)
         tk.Button(self.current_window, text="Search SKU", command=self.search_sku).pack(pady=20)
+        tk.Button(self.current_window, text="Close", command=self.close_app).pack(pady=20)
 
         self.image = PhotoImage(file="Pour.gif")  # replace with your image file
         tk.Label(self.current_window, image=self.image).pack(side="bottom")
@@ -52,7 +54,7 @@ class SampleApp(tk.Tk):
         tk.Label(self.current_window, text="SKU (6 digits):").pack()
         self.sku = tk.StringVar()
         tk.Entry(self.current_window, textvariable=self.sku).pack()
-        tk.Button(self.current_window, text="Save", command=self.save_and_return).pack()
+        
         tk.Button(self.current_window, text="Continue Inputting SKU", command=self.continue_inputting_sku).pack()
         tk.Label(self.current_window, text="Last 10 Entered Data Points:").pack()
         self.product_listbox = tk.Listbox(self.current_window, height=10)
@@ -60,18 +62,12 @@ class SampleApp(tk.Tk):
         for data in self.product_data[-10:]:
             self.product_listbox.insert(tk.END, f"{data[0]} ({data[1]})")
         tk.Button(self.current_window, text="Back", command=self.previous_window).pack()
-
+        tk.Button(self.current_window, text="Save", command=self.save_and_return).pack()
 # Save the entered item name and SKU to a text file and go back to the previous window.
 
     def save_and_return(self):
         item_name = self.item_name.get()
         sku = self.sku.get()
-        if not item_name or not sku:
-            messagebox.showerror("Error", "Name and SKU fields cannot be blank.")
-        return
-        if len(sku) != 6:
-            messagebox.showerror("Error", "SKU must be 6 digits long.")
-            return
         self.product_data.append((item_name, sku))
         with open("products.txt", "a") as f:
             f.write(f"{item_name},{sku}\n")
@@ -85,7 +81,6 @@ class SampleApp(tk.Tk):
         sku = self.sku.get()
         if not item_name or not sku:
             messagebox.showerror("Error", "Name and SKU fields cannot be blank.")
-        return
         if len(sku) != 6:
             messagebox.showerror("Error", "SKU must be 6 digits long.")
             return
@@ -130,6 +125,10 @@ class SampleApp(tk.Tk):
         if self.current_window_index < 0:
             self.current_window_index = len(self.window_list) - 1
         self.window_list[self.current_window_index]()
+
+    def close_app(self): #Exits Program 
+        self.destroy()
+        sys.exit()
 
 if __name__ == "__main__":
     app = SampleApp()
