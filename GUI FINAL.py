@@ -1,6 +1,14 @@
+# Date: 2024-03-02 REV 2024-9-3
+# Name: Sean Kennedy
+# IDE: Visual Studio Code
+
+# This is a GUI program to allow the input of product into a data base
+# Allow the input of custom name and SKU number
+# The database will store these values in an array for easy access later on.
+
+ 
 import tkinter as tk
 from tkinter import PhotoImage
-
 
 class SampleApp(tk.Tk):
 # A simple GUI application with multiple windows for product input, SKU search, and main window.
