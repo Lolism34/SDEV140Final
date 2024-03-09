@@ -9,6 +9,7 @@
  
 import tkinter as tk
 from tkinter import PhotoImage
+import tkinter.messagebox as messagebox
 
 class SampleApp(tk.Tk):
 # A simple GUI application with multiple windows for product input, SKU search, and main window.
@@ -65,8 +66,11 @@ class SampleApp(tk.Tk):
     def save_and_return(self):
         item_name = self.item_name.get()
         sku = self.sku.get()
+        if not item_name or not sku:
+            messagebox.showerror("Error", "Name and SKU fields cannot be blank.")
+        return
         if len(sku) != 6:
-            print("SKU must be 6 digits long.")
+            messagebox.showerror("Error", "SKU must be 6 digits long.")
             return
         self.product_data.append((item_name, sku))
         with open("products.txt", "a") as f:
@@ -79,8 +83,11 @@ class SampleApp(tk.Tk):
     def continue_inputting_sku(self):
         item_name = self.item_name.get()
         sku = self.sku.get()
+        if not item_name or not sku:
+            messagebox.showerror("Error", "Name and SKU fields cannot be blank.")
+        return
         if len(sku) != 6:
-            print("SKU must be 6 digits long.")
+            messagebox.showerror("Error", "SKU must be 6 digits long.")
             return
         self.product_data.append((item_name, sku))
         self.item_name.set("")
