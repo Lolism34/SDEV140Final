@@ -89,6 +89,7 @@ class SampleApp(tk.Tk):
         self.sku.set("")
         self.product_listbox.insert(tk.END, f"{item_name} ({sku})")
 
+# Allows the user to search inputted data
     def search_sku(self):
         if self.current_window:
             self.current_window.destroy()
@@ -103,6 +104,7 @@ class SampleApp(tk.Tk):
         tk.Button(self.current_window, text="Back", command=self.previous_window).pack()
         self.search_sku_button()
 
+# Search Button 
     def search_sku_button(self):
         sku = self.search_sku_entry.get()
         self.results.delete(0, tk.END)
